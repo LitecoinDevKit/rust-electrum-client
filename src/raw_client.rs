@@ -31,9 +31,7 @@ use openssl::ssl::{SslConnector, SslMethod, SslStream, SslVerifyMode};
     not(feature = "use-openssl")
 ))]
 use rustls::{
-    pki_types::ServerName,
-    pki_types::{Der, TrustAnchor},
-    ClientConfig, ClientConnection, RootCertStore, StreamOwned,
+    pki_types::ServerName, ClientConfig, ClientConnection, RootCertStore, StreamOwned,
 };
 
 #[cfg(any(feature = "default", feature = "proxy"))]
