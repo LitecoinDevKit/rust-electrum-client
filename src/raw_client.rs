@@ -434,14 +434,9 @@ impl RawClient<ElectrumSslStream> {
         let config = if validate_domain {
             socket_addr.domain().ok_or(Error::MissingDomain)?;
 
-            let store = webpki_roots::TLS_SERVER_ROOTS
-                .iter()
-                .map(|t| TrustAnchor {
-                    subject: Der::from_slice(t.subject),
-                    subject_public_key_info: Der::from_slice(t.spki),
-                    name_constraints: t.name_constraints.map(Der::from_slice),
-                })
-                .collect::<RootCertStore>();
+            let store = RootCertStore {
+                roots: webpki_roots::TLS_SERVER_ROOTS.to_vec(),
+            };
 
             // TODO: cert pinning
             builder.with_root_certificates(store).with_no_client_auth()
